@@ -1,0 +1,49 @@
+name: SimpleTeams
+version: 2.1.2
+main: net.godlycow.org.SimpleTeams
+folia-supported: true
+api-version: '1.21'
+author: _GodlyCow
+description: A simple teams plugin for Paper/Spigot/Folia
+softdepend:
+  - PlaceholderAPI
+
+commands:
+  team:
+    description: Main command for SimpleTeams
+    usage: /team [subcommand]
+
+permissions:
+  simpleteams.player.*:
+    description: Gives access to all player commands
+    default: true
+    children:
+      simpleteams.player.create: true
+      simpleteams.player.join: true
+      simpleteams.player.leave: true
+      simpleteams.player.info: true
+      simpleteams.player.list: true
+      simpleteams.player.top: true
+      simpleteams.player.open: true
+      simpleteams.player.close: true
+      simpleteams.player.kick: true
+      simpleteams.player.promote: true
+      simpleteams.player.demote: true
+      simpleteams.player.disband: true
+      simpleteams.player.ban: true
+      simpleteams.player.unban: true
+      simpleteams.player.edit: true
+      simpleteams.player.invite: true
+      simpleteams.player.accept: true
+      simpleteams.player.deny: true
+      simpleteams.player.chat: true
+      simpleteams.player.help: true
+  simpleteams.admin.*:
+    description: Gives access to all admin commands
+    default: op
+    children:
+      simpleteams.admin.disband: true
+      simpleteams.admin.kick: true
+      simpleteams.admin.setleader: true
+      simpleteams.admin.reload: true
+      simpleteams.admin.bypass: true
