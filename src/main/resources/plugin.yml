@@ -1,5 +1,5 @@
 name: SimpleTeams
-version: 2.1.2
+version: 2.1.4
 main: net.godlycow.org.SimpleTeams
 folia-supported: true
 api-version: '1.21'

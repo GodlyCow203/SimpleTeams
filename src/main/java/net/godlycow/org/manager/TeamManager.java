@@ -111,7 +111,8 @@ public class TeamManager {
         if (team.isBanned(player.getUniqueId())) {
             return JoinResult.BANNED;
         }
-        if (!team.isOpen() && !player.hasPermission("simpleteams.admin.bypass")) {
+        if (!team.isOpen() && !hasOutgoingInvite(team.getId(), player.getUniqueId())
+                && !player.hasPermission("simpleteams.admin.bypass")) {
             return JoinResult.CLOSED;
         }
         if (team.getMemberCount() >= plugin.getConfigManager().getMaxMembers()) {

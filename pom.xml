@@ -6,7 +6,7 @@
 
     <groupId>com.simpleteams</groupId>
     <artifactId>SimpleTeams</artifactId>
-    <version>2.1.2</version>
+    <version>2.1.4</version>
     <packaging>jar</packaging>
 
     <name>SimpleTeams</name>

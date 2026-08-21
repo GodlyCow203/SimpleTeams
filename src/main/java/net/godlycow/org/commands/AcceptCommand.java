@@ -42,16 +42,33 @@ public class AcceptCommand extends TeamSubCommand {
          if (team == null) {
             this.plugin.getMessageManager().send(sender, "teamNotFound", "team", "?");
          } else {
-            this.plugin.getTeamManager().clearInvite(player.getUniqueId());
             TeamManager.JoinResult result = this.plugin.getTeamManager().joinTeam(player, team);
             if (result == TeamManager.JoinResult.SUCCESS) {
+               this.plugin.getTeamManager().clearInvite(player.getUniqueId());
                this.plugin.getMessageManager().send(sender, "inviteAccepted", "team", team.getName());
                this.broadcast(team, player.getUniqueId(), "inviteAcceptedBroadcast", new String[]{"player", player.getName()});
             } else {
-               this.plugin.getMessageManager().send(sender, "teamFull", "count", String.valueOf(team.getMemberCount()), "max", String.valueOf(this.plugin.getConfigManager().getMaxMembers()));
+               this.plugin.getTeamManager().clearInvite(player.getUniqueId());
+               this.plugin.getMessageManager().send(sender, resultMessage(result, team), resultPlaceholders(result, team));
             }
-
          }
       }
+   }
+
+   private String resultMessage(TeamManager.JoinResult result, Team team) {
+      return switch (result) {
+         case BANNED -> "bannedFromTeam";
+         case CLOSED -> "teamIsClosed";
+         case FULL -> "teamFull";
+         default -> "alreadyInTeam";
+      };
+   }
+
+   private String[] resultPlaceholders(TeamManager.JoinResult result, Team team) {
+      return switch (result) {
+         case BANNED -> new String[]{"team", team.getName()};
+         case FULL -> new String[]{"count", String.valueOf(team.getMemberCount()), "max", String.valueOf(this.plugin.getConfigManager().getMaxMembers())};
+         default -> new String[0];
+      };
    }
 }
