@@ -28,8 +28,14 @@ public class ReloadSubCommand extends TeamSubCommand {
       return false;
    }
 
-   public void execute(CommandSender sender, String[] args) {
-      this.plugin.reload();
+    public void execute(CommandSender sender, String[] args) {
+      try {
+         this.plugin.reload();
+      } catch (Exception e) {
+         this.plugin.getLogger().severe("Reload failed: " + e.getMessage());
+         this.plugin.getMessageManager().send(sender, "reloadFailed");
+         return;
+      }
       this.plugin.getMessageManager().send(sender, "reloadSuccess");
    }
 }

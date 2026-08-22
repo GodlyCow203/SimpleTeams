@@ -4,7 +4,9 @@ import net.godlycow.org.SimpleTeams;
 import net.godlycow.org.team.Team;
 import net.godlycow.org.team.TeamRank;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.OfflinePlayer;
 
@@ -19,6 +21,11 @@ public class SimpleTeamsExpansion extends PlaceholderExpansion {
 
     private final SimpleTeams plugin;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder()
+            .character(LegacyComponentSerializer.SECTION_CHAR)
+            .hexColors()
+            .useUnusualXRepeatedCharacterHexFormat()
+            .build();
 
     public SimpleTeamsExpansion(SimpleTeams plugin) {
         this.plugin = plugin;
@@ -66,7 +73,7 @@ public class SimpleTeamsExpansion extends PlaceholderExpansion {
                 return team != null ? stripToPlain(team.getPrefix()) : NO_TEAM;
 
             case "prefix_formatted":
-                return team != null ? team.getPrefix() : NO_TEAM;
+                return team != null ? toLegacy(team.getPrefix()) : NO_TEAM;
 
             case "rank":
                 if (team == null) {
@@ -250,5 +257,10 @@ public class SimpleTeamsExpansion extends PlaceholderExpansion {
         return PlainTextComponentSerializer.plainText().serialize(
                 miniMessage.deserialize(miniMessageStr)
         );
+    }
+
+    private String toLegacy(String miniMessageStr) {
+        Component component = miniMessage.deserialize(miniMessageStr);
+        return legacySerializer.serialize(component);
     }
 }

@@ -124,6 +124,7 @@ setleaderSuccess: "<#FFFFFF>Transferred leadership of <#4A90E2>{team}</#4A90E2> 
 setleaderBroadcast: "<#FFFFFF>{player}</#FFFFFF> <#FFFFFF>is now the team leader."
 
 reloadSuccess: "<#FFFFFF>SimpleTeams configuration reloaded successfully."
+reloadFailed: "<#4A90E2>Reload failed. Check the server console for details."
 
 updateFailed: "<#4A90E2>Failed to check for updates."
 updateUpToDate: "<#FFFFFF>SimpleTeams is running the latest version."

@@ -84,6 +84,7 @@ public final class SimpleTeams extends JavaPlugin {
         reloadConfig();
         configManager.reload();
         messageManager.reload();
+        getLogger().info("Configuration and messages reloaded.");
     }
 
     public TeamManager getTeamManager() {

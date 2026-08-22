@@ -2,6 +2,9 @@ package net.godlycow.org.manager;
 
 import net.godlycow.org.SimpleTeams;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
@@ -26,7 +29,21 @@ public class MessageManager {
         if (!messagesFile.exists()) {
             plugin.saveResource("messages.yml", false);
         }
-        messages = YamlConfiguration.loadConfiguration(messagesFile);
+        messages = new YamlConfiguration();
+
+        try {
+            messages.load(messagesFile);
+        } catch (Exception e) {
+            plugin.getLogger().severe("Could not parse messages.yml: " + e.getMessage()
+                    + " - falling back to bundled defaults.");
+        }
+
+        // Always fall back to the bundled messages so missing/outdated keys still resolve.
+        InputStream defaultsStream = plugin.getResource("messages.yml");
+        if (defaultsStream != null) {
+            messages.setDefaults(YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(defaultsStream, StandardCharsets.UTF_8)));
+        }
     }
 
     public void reload() {
