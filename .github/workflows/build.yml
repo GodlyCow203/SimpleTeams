@@ -46,6 +46,15 @@ jobs:
             echo "tag=latest" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Delete existing rolling release/tag
+        if: steps.version.outputs.tag == 'latest'
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete latest --yes || true
+          git push origin --delete latest || true
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
