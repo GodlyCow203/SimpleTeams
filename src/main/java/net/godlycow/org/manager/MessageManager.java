@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -59,13 +60,21 @@ public class MessageManager {
         raw = applyPlaceholders(raw, placeholders);
         String withPrefix = getPrefix() +  raw;
 
-        return miniMessage.deserialize(withPrefix); // return parsed component
+        return deserializeSafe(withPrefix); // return parsed component
     }
 
     public Component parseRaw(String key, String... placeholders) {
         String raw = messages.getString(key, "<red>Missing message: " + key + "</red>");
         raw = applyPlaceholders(raw, placeholders);
-        return miniMessage.deserialize(raw);
+        return deserializeSafe(raw);
+    }
+
+    private Component deserializeSafe(String text) {
+        try {
+            return miniMessage.deserialize(text);
+        } catch (Exception e) {
+            return PlainTextComponentSerializer.plainText().deserialize(text);
+        }
     }
 
     public void send(CommandSender sender, String key, String... placeholders) {

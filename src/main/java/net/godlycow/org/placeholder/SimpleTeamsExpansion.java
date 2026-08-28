@@ -69,7 +69,13 @@ public class SimpleTeamsExpansion extends PlaceholderExpansion {
             case "team_plain":
                 return team != null ? stripToPlain(team.getPrefix()) : NO_TEAM;
 
+            case "team_formatted":
+                return team != null ? toLegacy(team.getPrefix()) : NO_TEAM;
+
             case "prefix":
+                return team != null ? toLegacy(team.getPrefix()) : NO_TEAM;
+
+            case "prefix_plain":
                 return team != null ? stripToPlain(team.getPrefix()) : NO_TEAM;
 
             case "prefix_formatted":
@@ -254,13 +260,21 @@ public class SimpleTeamsExpansion extends PlaceholderExpansion {
     }
 
     private String stripToPlain(String miniMessageStr) {
-        return PlainTextComponentSerializer.plainText().serialize(
-                miniMessage.deserialize(miniMessageStr)
-        );
+        try {
+            return PlainTextComponentSerializer.plainText().serialize(
+                    miniMessage.deserialize(miniMessageStr)
+            );
+        } catch (Exception e) {
+            return miniMessageStr;
+        }
     }
 
     private String toLegacy(String miniMessageStr) {
-        Component component = miniMessage.deserialize(miniMessageStr);
-        return legacySerializer.serialize(component);
+        try {
+            Component component = miniMessage.deserialize(miniMessageStr);
+            return legacySerializer.serialize(component);
+        } catch (Exception e) {
+            return miniMessageStr;
+        }
     }
 }
