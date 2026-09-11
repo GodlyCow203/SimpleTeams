@@ -18,7 +18,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SimpleTeams extends JavaPlugin {
 
-    private static final int BSTATS_ID = 30889; // useless to make it static but im too lazy to change it
 
     private static SimpleTeams instance;
     private TeamManager teamManager;
@@ -45,9 +44,7 @@ public final class SimpleTeams extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new KillListener(this), this);
 
-        if (configManager.isBStatsEnabled()) {
-            setupBStats();
-        }
+        setupBStats();
 
         fastStatsManager = new FastStatsManager();
         fastStatsManager.init(this);
@@ -72,11 +69,14 @@ public final class SimpleTeams extends JavaPlugin {
         if (teamManager != null) {
             teamManager.saveAllTeams();
         }
+        if (fastStatsManager != null) {
+            fastStatsManager.shutdown();
+        }
         getLogger().info("SimpleTeams has been disabled!");
     }
 
     private void setupBStats() {
-        Metrics metrics = new Metrics(this, BSTATS_ID);
+        Metrics metrics = new Metrics(this, 30889);
         metrics.addCustomChart(new SingleLineChart("total_teams", () -> teamManager.getAllTeams().size()));
     }
 

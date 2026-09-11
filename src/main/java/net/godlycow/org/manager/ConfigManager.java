@@ -93,9 +93,7 @@ public class ConfigManager {
         return plugin.getConfig().getBoolean("update-checker.enabled", true);
     }
 
-    public boolean isBStatsEnabled() {
-        return plugin.getConfig().getBoolean("bstats.enabled", true);
-    }
+
 
     public boolean isMotdOnJoinEnabled() {
         return plugin.getConfig().getBoolean("motd.show-on-join", true);

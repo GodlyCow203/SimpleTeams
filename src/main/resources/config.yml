@@ -36,5 +36,3 @@ motd:
 update-checker:
   enabled: true
 
-bstats:
-  enabled: true
